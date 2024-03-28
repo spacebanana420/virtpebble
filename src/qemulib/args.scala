@@ -54,6 +54,10 @@ def setDisk_drive(file: String, id: Byte): Vector[String] =
 def setDisk_cdrom(file: String): Vector[String] =
   if isFileOk(file) then Vector("-cdrom", file) else Vector()
 
+def addDrive(file: String, readonly: Boolean = false): Vector[String] =
+  if readonly then Vector("-drive", s"file=$file,readonly=on")
+  else Vector("-drive", s"file=$file,readonly=off")
+
 def fullscreenOnStart(): Vector[String] = Vector("-full-screen")
 
 def setGraphicsMode(mode: String): Vector[String] =
@@ -74,3 +78,6 @@ def configureBoot(order: String, menu: Boolean = false): Vector[String] = //add 
 
 def setAudio(driver: String, model: String): Vector[String] = //figure out -audiodev later
   Vector("-audio", s"driver=$driver,model=$model")
+
+def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
+  Vector("-nic", s"$backend,model=$model") //finish

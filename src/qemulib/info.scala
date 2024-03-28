@@ -5,7 +5,7 @@ import scala.sys.process.*
 private def getHostOS = System.getProperty("os.name")
 private def getHostArch = System.getProperty("os.arch")
 
-
+//not all stdouts require special parsing, this will do  the job
 private def simpleParse(stdout: String, s: String = "", seq: Vector[String] = Vector(), i: Int = 0, first: Boolean = true): Vector[String] =
   if i >= stdout.length then
     seq
@@ -38,6 +38,9 @@ def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String] =
   val stdout = Vector(exec, "-audio", "driver=help").!!
   simpleParse(stdout)
 
-def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String] =
+def getAudioModels(exec: String = "qemu-system-x86_64"): Vector[String] =
   val stdout = Vector(exec, "-audio", "model=help").!!
   simpleParse(stdout)
+
+def getNetInfo(exec: String = "qemu-system-x86_64"): String = //not parsing this at least for now
+  Vector(exec, "-nic", "help").!!
