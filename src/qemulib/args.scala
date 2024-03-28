@@ -1,9 +1,7 @@
 package qemulib
 
+import qemulib.misc.*
 import java.io.File
-
-private def getHostOS = System.getProperty("os.name")
-private def getHostArch = System.getProperty("os.arch")
 
 def setAccel(accel: String): Vector[String] =
   val os = getHostOS
@@ -22,15 +20,10 @@ def setAccel(accel: String): Vector[String] =
   else Vector()
 
 def setCPU(cores: Short, threads: Short = 0, sockets: Short = 0): Vector[String] =
-  def mkstring(opts: Vector[String], str: String = "", i: Int = 0): String =
-    if i >= opts.length then str
-    else if i == opts.length then mkstring(opts, str + opts(i), i+1)
-    else mkstring(opts, s"$str${opts(i)},")
-
   val c = s"cores=$cores"
   val t = if threads != 0 then s"threads=$threads" else ""
   val s = if sockets != 0 then s"sockets=$sockets" else ""
-  val cpuconfig = mkstring(Vector(c, t, s).filter(x => x.length != 0))
+  val cpuconfig = mkarg(Vector(c, t, s).filter(x => x.length != 0))
   Vector("-smp", cpuconfig)
 
 def setRAM(amt: Int): Vector[String] =
@@ -68,3 +61,16 @@ def setGraphicsMode(mode: String): Vector[String] =
   if supported.contains(mode) then
     Vector("-vga", mode)
   else Vector()
+
+def configureBoot(order: String, menu: Boolean = false): Vector[String] = //add splash image later
+  def isOrderOk(i: Int = 0): Boolean =
+    if i >= order.length then true
+    else if "acdn".contains(order(i)) == false then false
+    else isOrderOk(i+1)
+
+  val arg_order = if isOrderOk() then s"order=$order" else ""
+  val arg_menu = if menu then "menu=on" else "menu=off"
+  Vector("-boot", mkarg(Vector(arg_order, arg_menu).filter(x => x.length != 0)))
+
+def setAudio(driver: String, model: String): Vector[String] = //figure out -audiodev later
+  Vector("-audio", s"driver=$driver,model=$model")
