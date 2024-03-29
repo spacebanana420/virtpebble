@@ -102,7 +102,7 @@ Sets the graphics mode for your virtual machine.
 
 ---
 ```scala
-def configureBoot(order: String, menu: Boolean = false): Vector[String]
+def configureBoot(order: String, menu: Boolean = false, splash: String = ""): Vector[String]
 ```
 Configures the boot order of your drives, following a specific format.
 
@@ -113,6 +113,9 @@ Configures the boot order of your drives, following a specific format.
 * "n" is for network storage
 
 If you want to, for example, set the boot order to attempt to boot from the disk first, and cdrom after, you can use the string ```"dc"```.
+
+If ```menu``` is true, then QEMU will open the boot menu on launch.
+```splash``` sets the splash image to use on the boot menu. This only matters if you have the menu enabled.
 
 ---
 ```scala

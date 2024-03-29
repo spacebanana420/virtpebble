@@ -19,7 +19,7 @@ def setAccel(accel: String): Vector[String] =
   if supportedAccels.contains(accel) then Vector("-accel", accel)
   else Vector()
 
-def setCPU(cores: Short, threads: Short = 0, sockets: Short = 0): Vector[String] =
+def setCPU(cores: Short, threads: Short = 0, sockets: Short = 0): Vector[String] = //add model
   val c = s"cores=$cores"
   val t = if threads != 0 then s"threads=$threads" else ""
   val s = if sockets != 0 then s"sockets=$sockets" else ""
@@ -66,7 +66,7 @@ def setGraphicsMode(mode: String): Vector[String] =
     Vector("-vga", mode)
   else Vector()
 
-def configureBoot(order: String, menu: Boolean = false): Vector[String] = //add splash image later
+def configureBoot(order: String, menu: Boolean = false, splash: String = ""): Vector[String] = //add splash image later and make order optional
   def isOrderOk(i: Int = 0): Boolean =
     if i >= order.length then true
     else if "acdn".contains(order(i)) == false then false
@@ -74,7 +74,8 @@ def configureBoot(order: String, menu: Boolean = false): Vector[String] = //add 
 
   val arg_order = if isOrderOk() then s"order=$order" else ""
   val arg_menu = if menu then "menu=on" else "menu=off"
-  Vector("-boot", mkarg(Vector(arg_order, arg_menu).filter(x => x.length != 0)))
+  val arg_splash = if splash != "" && File(splash).isFile() && menu then s"splash=$splash" else ""
+  Vector("-boot", mkarg(Vector(arg_order, arg_menu, arg_splash).filter(x => x.length != 0)))
 
 def setAudio(driver: String, model: String): Vector[String] = //figure out -audiodev later
   Vector("-audio", s"driver=$driver,model=$model")
