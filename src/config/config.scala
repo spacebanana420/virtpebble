@@ -20,8 +20,8 @@ private def isSetting(line: String, keywords: Seq[String], i: Int = 0): Boolean 
 
 def readConfig(conf: String): Vector[String] =
   val settings =
-    List(
-    "accel=", "cpu=", "ram=",
+    Vector(
+    "name=", "accel=", "cpu=", "ram=",
     "hd=", "fd=", "cdrom=",
     "drive=", "boot=",
     "vga=",

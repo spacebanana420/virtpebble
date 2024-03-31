@@ -1,6 +1,5 @@
 package virtpebble.config
 
-//import tanuki.system_platform
 import java.io.File
 import java.io.FileOutputStream
 
