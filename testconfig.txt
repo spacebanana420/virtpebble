@@ -1,0 +1,7 @@
+accel=kvm
+cpu=1
+ram=1024
+vga=qxl
+boot=ac:true
+vga=qxl
+net=user:virtio-net-pci

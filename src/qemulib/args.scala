@@ -34,21 +34,30 @@ private def isFileOk(file: String): Boolean =
   val f = File(file)
   f.isFile() && f.canWrite()
 
-def setDisk_floppy(file: String, id: Byte): Vector[String] =
-  val arg =
-    if id == 0 then Vector("-fda", file)
-    else Vector("-fdb", file)
-  if isFileOk(file) then arg else Vector()
+private def mkdiskArg(base: String, disk: String): Vector[String] =
+  if disk != "" && isFileOk(disk) then Vector(base, disk) else Vector()
 
-def setDisk_drive(file: String, id: Byte): Vector[String] =
-  val arg =
-    id match
-      case 0 => Vector("-hda", file)
-      case 1 => Vector("-hdb", file)
-      case 2 => Vector("-hdc", file)
-      case 3 => Vector("-hdd", file)
-      case _ => Vector("-hda", file)
-  if isFileOk(file) then arg else Vector()
+// def setDisk_floppy(file: String, id: Byte): Vector[String] =
+//   val arg =
+//     if id == 0 then Vector("-fda", file)
+//     else Vector("-fdb", file)
+//   if isFileOk(file) then arg else Vector()
+
+def setDisks_floppy(disk1: String, disk2: String = ""): Vector[String] =
+  mkdiskArg("-fda", disk1) ++ mkdiskArg("-fdb", disk2)
+
+// def setDisk_drive(file: String, id: Byte): Vector[String] = //use multiple strings instead of ID
+//   val arg =
+//     id match
+//       case 0 => Vector("-hda", file)
+//       case 1 => Vector("-hdb", file)
+//       case 2 => Vector("-hdc", file)
+//       case 3 => Vector("-hdd", file)
+//       case _ => Vector("-hda", file)
+//   if isFileOk(file) then arg else Vector()
+
+def setDisks_drive(disk1: String, disk2: String = "", disk3: String = "", disk4: String = ""): Vector[String] =
+  mkdiskArg("-hda", disk1) ++ mkdiskArg("-hdb", disk2) ++ mkdiskArg("-hdc", disk3) ++ mkdiskArg("-hdd", disk4)
 
 
 def setDisk_cdrom(file: String): Vector[String] =

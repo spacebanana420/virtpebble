@@ -41,23 +41,23 @@ Sets the RAM size for the guest virtual machine, in **megabytes**. Setting this 
 
 ---
 ```scala
-def setDisks_floppy(disk1: String, disk2: String = ""): Vector[String]
+def setDisk_floppy(file: String, id: Byte): Vector[String]
 ```
-Adds disk images as floppy disks to your virtual machine.
+Adds a disk image as a floppy disk to your virtual machine.
 
-Up to 2 floppy disks can be added.
+```file``` must be a path leading to a file.
 
-Empty strings and strings that don't lead to the path of a file are discarded.
+```id``` can be 0 or 1. This means you can add 2 floppy disks.
 
 ---
 ```scala
-def setDisks_drive(disk1: String, disk2: String = "", disk3: String = "", disk4: String = ""): Vector[String]
+def setDisk_drive(file: String, id: Byte): Vector[String]
 ```
-Adds disk images as regular drives to your virtual machine.
+Adds a disk image as a regular drive to your virtual machine.
 
-Up to 4 hard drives can be added.
+```file``` must be a path leading to a file.
 
-Empty strings and strings that don't lead to the path of a file are discarded.
+```id``` can be 0, 1, 2, or 3. This means you can add 4 disks.
 
 ---
 ```scala
