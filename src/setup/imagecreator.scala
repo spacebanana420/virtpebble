@@ -6,12 +6,12 @@ import bananatui.*
 def setup_manageDisks() =
   val opts = Vector("Create a disk image")
   val ans = chooseOption(opts, "Choose what to do")
-  ans match
+  if ans != 0 then ans match
     case 1 => setup_createImage()
 
 def setup_createImage() =
 //   val title = s"${foreground("green")}[VM disk image creation]${foreground("default")}"
-  val path = chooseOption_dir("Type the path to create the disk imgae")
+  val path = chooseOption_dir("Type the path to create the disk image") //the path should instead be a folder inside the vms path
   val name = readUserInput("Type the name of your disk image")
   val size = readInt("Type the size of the disk image (megabytes)") //add a better tui function for this later
 

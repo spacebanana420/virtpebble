@@ -4,7 +4,7 @@ import virtpebble.config.*, bananatui.*
 import java.io.File
 
 def setupBaseConfig() =
-  val arch = readUserInput("Type the name of the default architecture to use\nThis is only used in case a virtual machine lacks architecture information") //replace with a set of options
+  val arch = spawnAndRead("Type the name of the default architecture to use\nThis is only used in case a virtual machine lacks architecture information") //replace with a set of options
   val vmpath = chooseOption_dir("Type the path to store your virtual machine configurations")
   writeBaseConfig(s"arch=$arch\nvmpath=$vmpath")
   if !File(vmpath).isDirectory() then File(vmpath).mkdirs()
