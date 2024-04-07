@@ -89,8 +89,11 @@ def setupAudio(): String =
   s"audio=$driver:$model"
 
 
-def setupNet(): String = //this needs to be finished
-  val supported = getNetInfo()
-  val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
-  if ans != "" then s"vga=$ans"
-  else s"vga=std"
+// def setupNet(): String = //this needs to be finished
+//   val supported = getNetInfo()
+//   val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
+//   if ans != "" then s"vga=$ans"
+//   else s"vga=std"
+
+
+def setupNet(): String = s"vga=user:virtio-net-pci"

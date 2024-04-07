@@ -1,6 +1,6 @@
 package virtpebble
 
-import virtpebble.config.{setQEMUArgs, getVMpath, getVMEntries}
+import virtpebble.config.{readConfig_VM, setQEMUArgs, getVMpath, getVMEntries, getArch}
 import bananatui.*
 import qemulib.qemu_run
 import qemulib.qemuimage_create
@@ -16,7 +16,8 @@ def vmLoader() =
 
 def runVM(conf: String) = //add support for more architectures through a config setting
   val args = setQEMUArgs(conf)
-  qemu_run(args)
+  val arch = getArch(readConfig_VM(conf))
+  qemu_run(args, exec = s"qemu-system-$arch")
 
 def createImage(path: String, size: Int, format: String) =
   qemuimage_create(path, size, format)

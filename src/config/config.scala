@@ -20,13 +20,13 @@ private def isSetting(line: String, keywords: Seq[String], i: Int = 0): Boolean 
 
 def getConfParams_VM(): Vector[String] =
   Vector(
-  "name=", "accel=", "cpu=", "ram=",
+  "arch=", "name=", "accel=", "cpu=", "ram=",
   "hd=", "fd=", "cdrom=",
   "drive=", "boot=",
   "vga=",
   "audio=", "net="
   )
-def getConfParams_base(): Vector[String] = Vector("vmpath=")
+def getConfParams_base(): Vector[String] = Vector("vmpath=", "arch=")
 
 def readConfig_base(conf: String): Vector[String] = readConfig(conf, getConfParams_base())
 

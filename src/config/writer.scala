@@ -3,6 +3,12 @@ package virtpebble.config
 import java.io.File
 import java.io.FileOutputStream
 
+def createBaseConfig(usedefaults: Boolean = false) =
+  val config = FileOutputStream("config.txt")
+  if usedefaults then config.write(defaultbaseconf().getBytes())
+
+def writeBaseConfig(conf: String) = FileOutputStream("config.txt").write(conf.getBytes())
+
 def createConfig(conf: String) =
   val config = FileOutputStream(conf)
 //   if system_platform == 1 || system_platform == 2 then

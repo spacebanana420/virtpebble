@@ -29,6 +29,10 @@ private def fill_short(opt: Vector[Short], max: Int): Vector[Short] =
   if opt.length >= max then opt
   else fill_short(opt :+ 0, max)
 
+def getArch(cfg: Seq[String]): String =
+  val a = getFirstValue(cfg, "arch=")
+  if a != "" then a else getDefaultArch()
+
 def getAccel(cfg: Seq[String]): String = getFirstValue(cfg, "accel=")
 
 def getCPU(cfg: Seq[String]): Vector[Short] =
