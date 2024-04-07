@@ -18,15 +18,21 @@ private def isSetting(line: String, keywords: Seq[String], i: Int = 0): Boolean 
   else if startsWith(keywords(i)) then true
   else isSetting(line, keywords, i+1)
 
-def readConfig(conf: String): Vector[String] =
-  val settings =
-    Vector(
-    "name=", "accel=", "cpu=", "ram=",
-    "hd=", "fd=", "cdrom=",
-    "drive=", "boot=",
-    "vga=",
-    "audio=", "net="
-    )
+def getConfParams_VM(): Vector[String] =
+  Vector(
+  "name=", "accel=", "cpu=", "ram=",
+  "hd=", "fd=", "cdrom=",
+  "drive=", "boot=",
+  "vga=",
+  "audio=", "net="
+  )
+def getConfParams_base(): Vector[String] = Vector("vmpath=")
+
+def readConfig_base(conf: String): Vector[String] = readConfig(conf, getConfParams_base())
+
+def readConfig_VM(conf: String): Vector[String] = readConfig(conf, getConfParams_VM())
+
+private def readConfig(conf: String, settings: Vector[String]): Vector[String] =
   val src = Source.fromFile(conf)
   val cfg = src
     .getLines()

@@ -18,6 +18,12 @@ Gets the list of hypervisors that are supported by your system.
 
 ---
 ```scala
+def getGraphicalAccelerators(exec: String = "qemu-system-x86_64"): Vector[String]
+```
+Gets the list of graphical accelerators that are supported by your system.
+
+---
+```scala
 def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String]
 ```
 ```scala

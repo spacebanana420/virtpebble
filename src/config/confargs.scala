@@ -68,7 +68,7 @@ def setQEMUArgs(cfile: String): Vector[String] =
       val drive_args = addDrive(d(i)(0), getVal_boolean(d(i)(1)))
       getDrivesArgs(d, args ++ drive_args, i+1)
 
-  val conf = readConfig(cfile) //check if it exists
+  val conf = readConfig_VM(cfile) //check if it exists
 
   val accel = getAccel(conf)
   val cpu = getCPU(conf)
