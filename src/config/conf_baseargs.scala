@@ -8,7 +8,11 @@ def getVMpath(cfg: Seq[String] = Vector()): String =
   else getFirstValue(readConfig_base("config.txt"), "vmpath=")
 
 def getVMEntries(path: String): Array[String] =
-  File(path).list().filter(x => File(s"$path/$x").isFile() && x.contains("_vm.txt"))
+  File(path).list().filter(x => File(s"$path/$x").isFile() && x.contains("_vm.txt")) //filter makes it null-safe
+
+def getDiskList(path: String = ""): Array[String] =
+  val p = if path != "" then path else getVMpath()
+  File(s"$p/disks").list().filter(x => File(s"$p/disks/$x").isFile()) //filter makes it null-safe
 
 def getDefaultArch(cfg: Seq[String] = Vector()): String =
   if cfg.length > 0 then getFirstValue(cfg, "arch=")

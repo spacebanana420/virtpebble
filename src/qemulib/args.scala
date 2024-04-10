@@ -19,6 +19,9 @@ def setAccel(accel: String): Vector[String] =
   if supportedAccels.contains(accel) then Vector("-accel", accel)
   else Vector()
 
+def setMachine(machine: String = "virt"): Vector[String] =
+  if machine == "" then Vector() else Vector("-machine", machine)
+
 def setCPU(cores: Short, threads: Short = 0, sockets: Short = 0): Vector[String] = //add model
   val c = s"cores=$cores"
   val t = if threads != 0 then s"threads=$threads" else ""
@@ -89,5 +92,8 @@ def configureBoot(order: String, menu: Boolean = false, splash: String = ""): Ve
 def setAudio(driver: String, model: String): Vector[String] = //figure out -audiodev later
   Vector("-audio", s"driver=$driver,model=$model")
 
+// def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
+//   if backend != "" && model != "" then Vector("-nic", s"$backend,model=$model")
+//   else Vector("-nic", "user,model=virtio-net-pci")
 def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
-  Vector("-nic", s"$backend,model=$model") //finish
+  Vector("-nic", s"$backend,model=$model")

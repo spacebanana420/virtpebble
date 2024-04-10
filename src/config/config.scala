@@ -20,7 +20,7 @@ private def isSetting(line: String, keywords: Seq[String], i: Int = 0): Boolean 
 
 def getConfParams_VM(): Vector[String] =
   Vector(
-  "arch=", "name=", "accel=", "cpu=", "ram=",
+  "arch=", "name=", "accel=", "machine=", "cpu=", "ram=",
   "hd=", "fd=", "cdrom=",
   "drive=", "boot=",
   "vga=",

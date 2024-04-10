@@ -48,6 +48,10 @@ def getGraphicalAccelerators(exec: String = "qemu-system-x86_64"): Vector[String
   val stdout = Vector(exec, "-vga", "help").!!
   parse(stdout)
 
+def getMachines(exec: String = "qemu-system-x86_64"): Vector[String] =
+  val stdout = Vector(exec, "-machine", "help").!!
+  simpleParse(stdout)
+
 def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String] =
   val stdout = Vector(exec, "-audio", "driver=help").!!
   simpleParse(stdout)
