@@ -16,7 +16,7 @@ def setup_manageDisks() =
     case 1 => setup_createImage(disks_dir)
     case 2 => setup_deleteImage(disks_dir)
 
-def setup_createImage(path: String) =
+def setup_createImage(path: String) = //remember to check if the file exists
 //   val title = s"${foreground("green")}[VM disk image creation]${foreground("default")}"
   val name = readUserInput("Type the name of your disk image")
   val size = readInt("Type the size of the disk image (megabytes)") //add a better tui function for this later
@@ -24,11 +24,12 @@ def setup_createImage(path: String) =
   val f = chooseOption_string(Vector("qcow2", "raw"), "Choose the disk format", "Default (qcow2)")
   val format = if f == "" then "qcow2" else f
   val extension = if format == "raw" then "img" else format
-  qemuimage_create(s"$path/$name.$extension", size, format)
+  if File(s"$path/$name.$extension").exists() then pressToContinue(s"The disk image \"$name.$extension\" already exists!")
+  else qemuimage_create(s"$path/$name.$extension", size, format)
 
 
 def setup_deleteImage(path: String) =
-  val disks = File(path).list()
+  val disks = File(path).list().filter(x => File(s"$path/$x").isFile()) //filter makes it null-safe
 
   val d = chooseOption_astring(disks, "Choose a disk image to delete", "Cancel")
   if d != "" && askPrompt(s"The image disk $d will be deleted permanently, this cannot be undone\nProceed?") then
