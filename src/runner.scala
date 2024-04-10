@@ -5,10 +5,16 @@ import bananatui.*
 import qemulib.qemu_run
 import qemulib.qemuimage_create
 
+def hasAnyVMs(path: String): Boolean =
+  if getVMEntries(path).length == 0 then false else true
+
+def hasAnyVMs(entries: Array[String]): Boolean =
+  if entries.length == 0 then false else true
+
 def vmLoader() =
   val vm_path = getVMpath()
   val vm_entries = getVMEntries(vm_path)
-  if vm_entries.length == 0 then pressToContinue("You have no virtual machines created!")
+  if !hasAnyVMs(vm_entries) then pressToContinue("You have no virtual machines created!")
   else
     val vm = chooseOption_astring(vm_entries, "Choose a virtual machine to launch")
     if vm != "" then

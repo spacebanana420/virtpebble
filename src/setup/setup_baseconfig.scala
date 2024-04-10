@@ -3,11 +3,15 @@ package virtpebble.setup
 import virtpebble.config.*, bananatui.*
 import java.io.File
 
+def createVMPath(path: String) =
+  //if !File(path).isDirectory() then File(path).mkdirs()
+  if !File(s"$path/disks").isDirectory() then File(s"$path/disks").mkdirs() //creates everything at once, more efficient
+
 def setupBaseConfig() =
   val arch = spawnAndRead("Type the name of the default architecture to use\nThis is only used in case a virtual machine lacks architecture information") //replace with a set of options
   val vmpath = chooseOption_dir("Type the path to store your virtual machine configurations")
   writeBaseConfig(s"arch=$arch\nvmpath=$vmpath")
-  if !File(vmpath).isDirectory() then File(vmpath).mkdirs()
+  createVMPath(vmpath)
 
 
 def checkConfig() =
@@ -22,5 +26,5 @@ def checkConfig() =
     else
       createBaseConfig(true)
       val default_vmpath = defaultVMPath()
-      if !File(default_vmpath).isDirectory() then File(default_vmpath).mkdirs()
+      createVMPath(default_vmpath)
 

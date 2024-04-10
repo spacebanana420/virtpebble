@@ -16,7 +16,7 @@ import scala.sys.exit
       case 0 => exit()
       case 1 => vmLoader()
       case 2 => setupVM()
-      case 3 =>
+      case 3 => setup_deleteVM()
       case 4 => setup_manageDisks()
       case 5 => setupBaseConfig()
 //   writeConfig_string("testconfig.txt", defaultconf_linux(), false)
