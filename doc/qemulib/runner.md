@@ -6,6 +6,14 @@ For ```args```, you need to retrieve and concatenate the results of calling the 
 
 ---
 ```scala
+def check_qemu(path: String = "qemu-system-x86_64"): Boolean
+```
+Attempts to run QEMU, good for checking whether you have it in your system or not.
+
+```exec``` should be the program name or the path to its executable.
+
+---
+```scala
 def qemu_run(args: Seq[String] = Vector(), exec: String = "qemu-system-x86_64", quiet: Boolean = true)
 ```
 Runs QEMU to launch a virtual machine. QEMU is launched in parallel, and so your program isn't stalled.

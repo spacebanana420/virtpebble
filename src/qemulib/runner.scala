@@ -34,6 +34,10 @@ private def exec_s(cmd: Seq[String]): String =
 // private def verifyExec() =
 //   val arches =
 
+def check_qemu(path: String = "qemu-system-x86_64"): Boolean =
+  val status = exec(Vector(path, "--version"))
+  if status == 0 then true else false
+
 def qemu_run(args: Seq[String] = Vector(), exec: String = "qemu-system-x86_64", quiet: Boolean = true) = //return the process trait
   exec_parallel(exec, args, quiet)
 
