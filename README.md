@@ -17,41 +17,12 @@ Exceptionally, Bhyve support for FreeBSD as an alternative to QEMU is in my plan
 # Download & how to use
 The first release of Virtpebble is not out yet. To try out the project in its fresh state, check the instructions on how to build from source below.
 
-# Compile from source
-Virtpebble requires either Scala or Scala-CLI to build and run.
-
-## Build lightweight JAR (with Scalac)
-```
-scalac src/*.scala src/*/*.scala -d virtpebble.jar
-```
-
-You can run Virtpebble with Scala or Scala-CLI:
-
-```
-scala virtpebble.jar
-```
-
-## Build fat JAR (with Scala-CLI)
-```
-scala-cli --power package src --assembly --preamble=false -o virtpebble.jar
-```
-You can run Virtpebble with Java:
-
-```
-java -jar virtpebble.jar
-```
-
-## Build and run directly (with Scala-CLI)
-```
-scala-cli src
-```
-This builds the first time and runs the program. Next time you run Virtpebble, it won't compile again, since it's already compiled.
-
-To re-compile, run:
-```
-scala-cli compile src
-```
-
 # User documentation
 
+* [Getting started](doc/guide.md)
+* [Platform support](doc/platform.md)
+* [Compile from source](doc/build.md)
+
 # Developer documentation
+
+* [Qemulib documentation](doc/qemulib/base.md)
