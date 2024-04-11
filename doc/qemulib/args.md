@@ -29,6 +29,12 @@ Sets the hypervisor to use with QEMU. Default is ```tcg``` which is a system-agn
 
 ---
 ```scala
+def setMachine(machine: String = "virt"): Vector[String]
+```
+Sets a machine for QEMU to emulate. This is only necessary if the guest architecture is not the same as the host's.
+
+---
+```scala
 def setCPU(cores: Short, threads: Short = 0, sockets: Short = 0): Vector[String]
 ```
 Configures the guest CPU. Setting the core count is mandatory, but the rest is automatic if set to 0.
@@ -108,8 +114,8 @@ Configures the boot order of your drives, following a specific format.
 
 ```order``` is a special string that can only contain the characters "a", "c", "d" or "n".
 * "a" is for floppy disks
-* "c" is for cdrom drives
-* "d" is for regular disks
+* "d" is for cdrom drives
+* "c" is for regular disks
 * "n" is for network storage
 
 If you want to, for example, set the boot order to attempt to boot from the disk first, and cdrom after, you can use the string ```"dc"```.
@@ -134,3 +140,11 @@ Configures the network for your virtual machine.
 Supported backends and models for your system can be found out by running the function ```getNetInfo()```.
 
 Default values should be fine.
+
+---
+```scala
+def setVGAMemory(mem: Int): Vector[String]
+```
+Sets manually the video memory for the virtual machine's graphics, in megabytes.
+
+A value between 64 and 256 is recommended. Minimum value accepted is 1.

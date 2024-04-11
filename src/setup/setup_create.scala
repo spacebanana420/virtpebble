@@ -85,8 +85,8 @@ def configureBoot(): String =
   val ans = chooseOption(Vector("Main drive", "CDROM"), "Choose what disk to prioritize on boot", "Default (Main drive)")
   val order =
     if ans == 0 || ans == 1 then
-      "dc"
-    else "cd"
+      "cd"
+    else "dc"
   val menu = askPrompt("Do you want to enable the boot menu?")
   if askPrompt("Do you want to add a splash image to the boot menu?") then
     val splash = chooseOption_file("Add the path to an image file")

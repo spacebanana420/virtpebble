@@ -97,3 +97,8 @@ def setAudio(driver: String, model: String): Vector[String] = //figure out -audi
 //   else Vector("-nic", "user,model=virtio-net-pci")
 def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
   Vector("-nic", s"$backend,model=$model")
+
+
+///Misc arguments
+
+def setVGAMemory(mem: Int): Vector[String] = if mem <= 0 then Vector() else Vector("-device", s"VGA,vgamem_mb=$mem")

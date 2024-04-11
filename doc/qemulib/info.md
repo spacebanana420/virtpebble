@@ -24,6 +24,12 @@ Gets the list of graphical accelerators that are supported by your system.
 
 ---
 ```scala
+def getMachines(exec: String = "qemu-system-x86_64"): Vector[String]
+```
+Gets the list of machines QEMU can emulate given the guest architecture.
+
+---
+```scala
 def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String]
 ```
 ```scala
