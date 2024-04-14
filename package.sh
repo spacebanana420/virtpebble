@@ -1,6 +1,6 @@
 echo "Building Virtpebble"
 scalac src/*.scala src/*/*.scala -d virtpebble.jar
-scala-cli --power package src --assembly --preamble=false -f --jvm 8 -o virtpebble-java.jar
+scala-cli --power package src --assembly --preamble=false -f --jvm 11 -o virtpebble-java.jar
 
 echo "Building native binary (Linux, static)"
 native-image --no-fallback --static -O3 -jar virtpebble-java.jar -o virtpebble

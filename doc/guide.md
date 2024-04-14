@@ -4,4 +4,10 @@ Virtpebble is a cross-platform virtual machine runner/manager/launcher that is p
 
 Before running Virtpebble, make sure you have QEMU installed in your system, otherwise you lack the core functionality, which would be running your virtual machines.
 
-**unfinished doc**
+Once you have QEMU in your system, Virtpebble can work.
+
+Virtpebble stores base information, such as the path to your virtual machines, in config.txt. This config file is created in the same place where Virtpebble is.
+
+The path to your virtual machines is used to store your virtual machine configurations as well as your disk images. You can create these within Virtpebble, or you can manually add ones you already have yourself.
+
+**this documentation is not finished yet**

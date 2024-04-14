@@ -11,12 +11,18 @@ Exceptionally, Bhyve support for FreeBSD as an alternative to QEMU is in my plan
 
 # Requirements
 
-* Java 8 or Scala 3
+* Java 11 or Scala 3
 * [QEMU](https://www.qemu.org/)
 
 # Download & how to use
 
-The first release of Virtpebble is not out yet. To try out the project in its fresh state, check the instructions on how to build from source below.
+You can download the latest versions of Virtpebble in [the releases page](https://github.com/spacebanana420/virtpebble/releases)
+
+If you have Scala installed, download ```virtpebble.jar```
+
+If you only have Java, download ```virtpebble-java.jar```
+
+If you have neither but you are on an x86_64 Linux system, download ```virtpebble-linux-x86_64.zip```
 
 # User documentation
 
