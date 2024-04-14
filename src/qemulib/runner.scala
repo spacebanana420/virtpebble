@@ -23,8 +23,8 @@ private def exec_status(path: String, args: Seq[String], quiet: Boolean = true):
 //   else
 //     cmd.!
 
-private def exec(cmd: Seq[String]): Int =
-  try cmd.!
+private def exec(cmd: Seq[String], quiet: Boolean = false): Int =
+  try if quiet then cmd.! else cmd.!(ProcessLogger(line => ()))
   catch case e: Exception => -1
 
 private def exec_s(cmd: Seq[String]): String =
@@ -35,8 +35,8 @@ private def exec_s(cmd: Seq[String]): String =
 //   val arches =
 
 def check_qemu(path: String = "qemu-system-x86_64"): Boolean =
-  val status = exec(Vector(path, "--version"))
-  if status == 0 then true else false
+  val status = exec(Vector(path, "--version"), true)
+  status == 0
 
 def qemu_run(args: Seq[String] = Vector(), exec: String = "qemu-system-x86_64", quiet: Boolean = true) = //return the process trait
   exec_parallel(exec, args, quiet)
