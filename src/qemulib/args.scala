@@ -102,3 +102,5 @@ def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vect
 ///Misc arguments
 
 def setVGAMemory(mem: Int): Vector[String] = if mem <= 0 then Vector() else Vector("-device", s"VGA,vgamem_mb=$mem")
+
+def setKeyboardLayout(layout: String): Vector[String] = Vector("-k", layout)

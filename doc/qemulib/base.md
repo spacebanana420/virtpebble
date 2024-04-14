@@ -33,7 +33,7 @@ val args = //CLI arguments for QEMU
   setAccel("kvm")
   ++ setCPU(4)
   ++ setRAM(2048)
-  ++ setDisk_drive("/path/to/diskimage.qcow2", 0)
+  ++ setDisk_drive("/path/to/diskimage.qcow2")
   ++ setGraphicsMode("qxl")
   ++ setAudio("pa", "hda")
   ++ setNetwork()
@@ -44,7 +44,7 @@ This is an example you can reproduce on a Linux system. First we build our comma
 * Enable KVM acceleration (most common usecase of QEMU and other virtual machine managers like virt-manager)
 * Set the CPU core count to 4 cores
 * Set the guest system's ram to 2048 megabytes
-* Set the main disk drive as the file in "/path/to/diskimage.qcow2". The id 0 tells it's the first disk device out of 4 possible ones.
+* Set the main disk drive as the file in "/path/to/diskimage.qcow2"
 * Set the graphics acceleration mode to QXL
 * Enable audio, and use Pulseaudio for the host, and emulate the Intel HDA card for the guest.
 * Enable network, but don't specify parameters, the default ones are fine (user model and virtio-pci driver)

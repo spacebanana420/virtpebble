@@ -18,7 +18,7 @@ private def isSetting(line: String, keywords: Seq[String], i: Int = 0): Boolean 
   else if startsWith(keywords(i)) then true
   else isSetting(line, keywords, i+1)
 
-def getConfParams_VM(): Vector[String] =
+def getConfParams_VM(): Vector[String] = //add name and description
   Vector(
   "arch=", "name=", "accel=", "machine=", "cpu=", "ram=",
   "hd=", "fd=", "cdrom=",

@@ -148,3 +148,9 @@ def setVGAMemory(mem: Int): Vector[String]
 Sets manually the video memory for the virtual machine's graphics, in megabytes.
 
 A value between 64 and 256 is recommended. Minimum value accepted is 1.
+
+---
+```scala
+def setKeyboardLayout(layout: String): Vector[String] = Vector("-k", layout)
+```
+Sets the keyboard layout for the VM guest.

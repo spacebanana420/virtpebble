@@ -15,7 +15,7 @@ import qemulib.check_qemu
       checkConfig()
 
       val opts = Vector("Run a virtual machine", "Create a virtual machine", "Delete a virtual machine", "Manage disk images", "Configure virtpebble")
-      val ans = chooseOption(opts, s"$green===Virtpebble v0.1-dev===$default\n\nChoose an option", "Exit")
+      val ans = chooseOption(opts, s"$green===Virtpebble v0.1===$default\n\nChoose an option", "Exit")
       ans match
         case 0 => exit()
         case 1 => vmLoader(debug)

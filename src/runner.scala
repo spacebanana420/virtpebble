@@ -5,11 +5,9 @@ import bananatui.*
 import qemulib.qemu_run
 import qemulib.qemuimage_create
 
-def hasAnyVMs(path: String): Boolean =
-  if getVMEntries(path).length == 0 then false else true
+def hasAnyVMs(path: String): Boolean = getVMEntries(path).length > 0
 
-def hasAnyVMs(entries: Array[String]): Boolean =
-  if entries.length == 0 then false else true
+def hasAnyVMs(entries: Array[String]): Boolean = entries.length > 0
 
 def vmLoader(debug: Boolean) =
   val vm_path = getVMpath()
@@ -20,7 +18,7 @@ def vmLoader(debug: Boolean) =
     if vm != "" then
       runVM(s"$vm_path/$vm", debug)
 
-def runVM(conf: String, debug: Boolean) = //add support for more architectures through a config setting
+def runVM(conf: String, debug: Boolean) =
   val args = setQEMUArgs(conf)
   val arch = getArch(readConfig_VM(conf))
   if debug then
