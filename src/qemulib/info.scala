@@ -16,6 +16,10 @@ private def simpleParse(stdout: String, s: String = "", seq: Vector[String] = Ve
   else
     simpleParse(stdout, s + stdout(i), seq, i+1, first)
 
+def supportedHostArchitectures(): Vector[String] = Vector("x86_64", "i386", "aarch64", "arm", "riscv64", "riscv32","ppc64", "ppc")
+
+def supportedGuestArchitectures(): Vector[String] = Vector("x86_64", "i386", "aarch64", "arm", "riscv64", "riscv32","ppc64", "ppc", "alpha", "avr", "cris", "hppa", "loongarch64", "m68k", "microblaze", "microblazeel", "mips", "mips64", "mips64el", "mipsel", "nios2", "or1k", "rx", "s390x", "sh4", "sh4eb", "sparc", "sparc64", "tricore", "xtensa", "xtensaeb")
+
 //needs fixing
 def getCPUList(exec: String = "qemu-system-x86_64"): Vector[String] =
   def parse(stdout: String, s: String = "", seq: Vector[String] = Vector(), i: Int = 0): Vector[String] =

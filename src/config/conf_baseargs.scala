@@ -19,3 +19,5 @@ def getDefaultArch(cfg: Seq[String] = Vector()): String =
   else
     val arch = getFirstValue(readConfig_base("config.txt"), "arch=")
     if arch != "" then arch else "x86_64" //change this later
+
+// def getBIOS() coming soon

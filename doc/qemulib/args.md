@@ -47,6 +47,14 @@ Sets the RAM size for the guest virtual machine, in **megabytes**. Setting this 
 
 ---
 ```scala
+def setBIOS(bios: String): Vector[String]
+```
+Sets a BIOS/UEFI firmware to use in your virtual machines. This is necessary for cross-architecture emulation.
+
+```bios``` must be the path to a file, or else the function returns an empty vector.
+
+---
+```scala
 def setDisks_floppy(disk1: String, disk2: String = ""): Vector[String]
 ```
 Adds disk images as floppy disks to your virtual machine.
@@ -93,7 +101,7 @@ Makes QEMU launch the display on fullscreen by default once you run the virtual 
 ```scala
 def setGraphicsMode(mode: String): Vector[String]
 ```
-Sets the graphics mode for your virtual machine.
+Sets the graphics mode for your virtual machine. This option seems to not work on non-x86 guests, in that case you should add a vga device instead.
 
 #### Supported modes:
 * std
@@ -131,6 +139,8 @@ Configures audio for your virtual machine.
 
 Supported drivers and models for your system can be found out by running the functions ```getAudioDrivers()``` and ```getAudioModels()```.
 
+Audio is not enabled if driver or model are empty strings.
+
 ---
 ```scala
 def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String]
@@ -140,6 +150,16 @@ Configures the network for your virtual machine.
 Supported backends and models for your system can be found out by running the function ```getNetInfo()```.
 
 Default values should be fine.
+
+It fallsback to user and virtio-net-pci if the given backend and model are empty strings
+
+---
+```scala
+def addDevice(device: String): Vector[String]
+```
+Adds a ```device``` for the virtual machine.
+
+Returns an empty vector if the string is empty.
 
 ---
 ```scala
@@ -153,4 +173,12 @@ A value between 64 and 256 is recommended. Minimum value accepted is 1.
 ```scala
 def setKeyboardLayout(layout: String): Vector[String] = Vector("-k", layout)
 ```
-Sets the keyboard layout for the VM guest.
+Sets the keyboard layout for the VM guest. This is not necessary in most cases.
+
+---
+```scala
+def enableSPICE(address: String = "", port: Int = 0, opengl: Boolean = false): Vector[String]
+```
+Uses SPICE in your virtual machine.
+
+You can specify an IP address and a port with ```address``` and ```port```, and you can enable OpenGL acceleration by setting ```opengl``` to true.

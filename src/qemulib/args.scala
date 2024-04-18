@@ -33,6 +33,9 @@ def setRAM(amt: Int): Vector[String] =
   if amt < 1 then Vector()
   else Vector("-m", s"${amt}M")
 
+def setBIOS(bios: String): Vector[String] =
+  if File(bios).isFile() then Vector("-bios", bios) else Vector()
+
 private def isFileOk(file: String): Boolean =
   val f = File(file)
   f.isFile() && f.canWrite()
@@ -90,13 +93,20 @@ def configureBoot(order: String, menu: Boolean = false, splash: String = ""): Ve
   Vector("-boot", mkarg(Vector(arg_order, arg_menu, arg_splash).filter(x => x.length != 0)))
 
 def setAudio(driver: String, model: String): Vector[String] = //figure out -audiodev later
-  Vector("-audio", s"driver=$driver,model=$model")
+  if driver != "" && model != "" then
+    Vector("-audio", s"driver=$driver,model=$model")
+  else Vector()
 
 // def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
 //   if backend != "" && model != "" then Vector("-nic", s"$backend,model=$model")
 //   else Vector("-nic", "user,model=virtio-net-pci")
 def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vector[String] =
-  Vector("-nic", s"$backend,model=$model")
+  val b = if backend == "" then "user" else backend
+  val m = if model == "" then "virtio-net-pci" else model
+  Vector("-nic", s"$b,model=$m")
+
+def addDevice(device: String): Vector[String] =
+  if device != "" then Vector("-device", device) else Vector()
 
 
 ///Misc arguments
@@ -104,3 +114,9 @@ def setNetwork(backend: String = "user", model: String = "virtio-net-pci"): Vect
 def setVGAMemory(mem: Int): Vector[String] = if mem <= 0 then Vector() else Vector("-device", s"VGA,vgamem_mb=$mem")
 
 def setKeyboardLayout(layout: String): Vector[String] = Vector("-k", layout)
+
+def enableSPICE(address: String = "", port: Int = 0, opengl: Boolean = false): Vector[String] = //test and add documentation
+  val arg_address = if address == "" then "" else s"addr=$address"
+  val arg_port = if port == 0 then "" else s"port=$port"
+  val arg_opengl = if opengl then "gl=on" else ""
+  Vector("-spice", mkarg(Vector(arg_address, arg_port, arg_opengl)))

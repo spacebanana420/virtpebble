@@ -6,6 +6,61 @@ These functions run QEMU to retrieve information, and so ```exec``` exists to sp
 
 ---
 ```scala
+def supportedHostArchitectures(): Vector[String]
+```
+Gets the list of supported host architectures.
+
+#### Supported architectures:
+* x86_64
+* i386
+* aarch64
+* arm
+* riscv64
+* riscv32
+* ppc64
+* ppc
+
+---
+```scala
+def supportedGuestArchitectures(): Vector[String]
+```
+Gets the list of supported guest architectures.
+
+#### Supported architectures:
+* x86_64
+* i386
+* aarch64
+* arm
+* riscv64
+* riscv32
+* ppc64
+* ppc
+* alpha
+* avr
+* cris
+* hppa
+* loongarch64
+* m68k
+* microblaze
+* microblazeel
+* mips
+* mips64
+* mips64el
+* mipsel
+* nios2
+* or1k
+* rx
+* s390x
+* sh4
+* sh4eb
+* sparc
+* sparc64
+* tricore
+* xtensa
+* xtensaeb
+
+---
+```scala
 def getCPUList(exec: String = "qemu-system-x86_64"): Vector[String]
 ```
 Gets the list of supported CPUs you can emulate.

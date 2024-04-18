@@ -7,6 +7,7 @@ import java.io.File
 import virtpebble.config.getDiskList
 import virtpebble.createImage
 import qemulib.getAccelerators
+import qemulib.supportedHostArchitectures
 
 
 // def create_config() =
@@ -26,15 +27,15 @@ def setupVM() =
   val cpu = setupCPU()
   val ram = setupRAM()
   val drives = setupDrives()
-  val vga = setupVGA()
-  val audio = setupAudio()
+  val vga = setupVGA(arch)
+  val audio = setupAudio(arch)
   val net = setupNet()
   val opts = drives ++ Vector(arch, accel, machine, cpu, ram, vga, audio, net)
 
   writeConfig(s"$vms_path/${name}_vm.txt", opts, false)
 
 def setupArch(): String =
-  val opts = Vector("x86_64", "i386", "aarch64", "arm", "riscv64", "riscv32","ppc64", "ppc")
+  val opts = supportedHostArchitectures() //add more arches later
   val arch = chooseOption_string(opts, "Choose the virtual machine's architecture", "Default (x86_64)")
   if arch == "" then "arch=x86_64" else s"arch=$arch"
 
@@ -93,15 +94,16 @@ def configureBoot(): String =
     s"boot=$order:$menu:$splash"
   else s"boot=$order:$menu"
 
-def setupVGA(): String = //non x86_64 qemus have different accel support, specify the qemu to run later
-  val supported = getGraphicalAccelerators()
+def setupVGA(arch: String = "x86_64"): String = //non x86_64 qemus have different accel support, specify the qemu to run later
+  //make variant that uses -device too
+  val supported = getGraphicalAccelerators(s"qemu-system-$arch")
   val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
   if ans != "" then s"vga=$ans"
   else s"vga=std"
 
-def setupAudio(): String =
-  val supported_d = getAudioDrivers()
-  val supported_m = getAudioModels()
+def setupAudio(arch: String = "x86_64"): String =
+  val supported_d = getAudioDrivers(s"qemu-system-$arch")
+  val supported_m = getAudioModels(s"qemu-system-$arch")
   val d = chooseOption_string(supported_d, "Choose an audio backend", "Default (none)")
   val driver =
     if d == "" then "none"

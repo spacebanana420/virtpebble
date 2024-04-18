@@ -63,3 +63,6 @@ def qemuimage_resize_lower(path: String, size: Int) =
 
 def qemuimage_info(path: String): String =
   exec_s(Vector("qemu-img", "info", "-q", path))
+
+def qemuimage_check(path: String): String =
+  exec_s(Vector("qemu-img", "check", "-q", path))

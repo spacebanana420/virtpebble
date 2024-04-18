@@ -26,7 +26,8 @@ def getConfParams_VM(): Vector[String] = //add name and description
   "vga=",
   "audio=", "net="
   )
-def getConfParams_base(): Vector[String] = Vector("vmpath=", "arch=")
+
+def getConfParams_base(): Vector[String] = Vector("vmpath=", "arch=", "bios=")
 
 def readConfig_base(conf: String): Vector[String] = readConfig(conf, getConfParams_base())
 
