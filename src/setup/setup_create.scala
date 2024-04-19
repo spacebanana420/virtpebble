@@ -46,12 +46,12 @@ def setupArch(): String =
 
 def setupAccel(arch: String = "x86_64"): String =
   val accels = getAccelerators(s"qemu-system-$arch")
-  val accel = chooseOption_string(accels, "Choose a hypervisor/accelerator", "Default (tcg)")
+  val accel = chooseOption_string(accels, "Choose a hypervisor/accelerator\n\nAny available hypervisor is preferred over tcg for better VM performance", "Default (tcg)")
   if accel == "" then "accel=tcg" else s"accel=$accel"
 
 def setupMachine(): String =
   val machines = Vector("virt") //add more in the future
-  val m = chooseOption_string(machines, "Choose a machine for QEMU to emulate\nThis is needed for cross-architecture emulation\nIf available, \"virt\" is recommended", s"Default (${machines(0)})")
+  val m = chooseOption_string(machines, "Choose a machine for QEMU to emulate\n\nThis is needed for cross-architecture emulation\nIf available, \"virt\" is recommended", s"Default (${machines(0)})")
   if m == "" then "none" else m
 
 def setupCPU(cores: Int = 1, threads: Int = 0, sockets: Int = 0): String =
@@ -102,12 +102,12 @@ def configureBoot(): String =
 def setupVGA(arch: String = "x86_64", machine: String): String =
   if arch != "x86_64" then
     val supported = getDisplayDevices(s"qemu-system-$arch", machine)
-    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", s"Default (${supported(0)})")
+    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use\n\nIf available, virtio-gpu-pci should be a good choice", s"Default (${supported(0)})")
     if ans != "" then s"device=$ans" //replace with device!!!!!!!!
     else s"device=${supported(0)}"
   else
     val supported = getGraphicalAccelerators(s"qemu-system-$arch", machine)
-    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
+    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use\n\nVirtio and QXL are usually ideal, otherwise you can choose STD", "Default (std)")
     if ans != "" then s"vga=$ans"
     else s"vga=std"
 

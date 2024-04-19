@@ -11,7 +11,7 @@ def createVMPath(path: String) =
 def setupBaseConfig() =
 //   val arch = spawnAndRead("Type the name of the default architecture to use\nThis is only used in case a virtual machine lacks architecture information, and so it should be your machine's architecture") //replace with a set of options
   val opts = supportedHostArchitectures() //add more arches later
-  val a = chooseOption_string(opts, "Choose the default architecture to use\nThis is only used in case a virtual machine lacks architecture information, and so it should be your machine's architecture", "Default (x86_64)")
+  val a = chooseOption_string(opts, "Choose the default architecture to use\nThis must be your host machine's architectur", "Default (x86_64)")
   val arch = if a == "" then "x86_64" else a
 
   val vmpath = chooseOption_dir("Type the path to store your virtual machine configurations")
@@ -28,7 +28,7 @@ def checkConfig() =
   val arch = getDefaultArch(conf)
 
   if vmpath == "" || arch == "" || !File(vmpath).isDirectory() then
-    if askPrompt("Your base config \"config.txt\" seems to be incorrectly set up.\nWould you like to manually re-configure? If not, then the default setup will be used") then
+    if askPrompt("Your base config \"config.txt\" seems to be incorrectly set up. Would you like to manually re-configure?\n\nIf not, then the default setup will be used") then
       setupBaseConfig()
     else
       createBaseConfig(true)

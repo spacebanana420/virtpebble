@@ -22,7 +22,7 @@ def setup_createImage(path: String): String = //remember to check if the file ex
   val name = readUserInput("Type the name of your disk image")
   val size = readInt("Type the size of the disk image (megabytes)") //add a better tui function for this later
 
-  val f = chooseOption_string(Vector("qcow2", "raw"), "Choose the disk format", "Default (qcow2)")
+  val f = chooseOption_string(Vector("qcow2", "raw"), "Choose the disk format\n\nIf you don't know which to choose, qcow2 is recommended", "Default (qcow2)")
   val format = if f == "" then "qcow2" else f
   val extension = if format == "raw" then "img" else format
   if File(s"$path/$name.$extension").exists() then pressToContinue(s"The disk image \"$name.$extension\" already exists!")
