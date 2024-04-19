@@ -4,6 +4,8 @@ Here are the functions related to retrieving device/driver/backend support for y
 
 These functions run QEMU to retrieve information, and so ```exec``` exists to specify the path to the QEMU executable.
 
+The ```machine``` argument has to be specified if you want to run instances of qemu-system meant for emulating other architectures that aren't the host's architecture, for example, running qemu-system-aarch64 on a x86_64 host.
+
 ---
 ```scala
 def supportedHostArchitectures(): Vector[String]
@@ -61,19 +63,19 @@ Gets the list of supported guest architectures.
 
 ---
 ```scala
-def getCPUList(exec: String = "qemu-system-x86_64"): Vector[String]
+def getCPUList(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 Gets the list of supported CPUs you can emulate.
 
 ---
 ```scala
-def getAccelerators(exec: String = "qemu-system-x86_64"): Vector[String]
+def getAccelerators(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 Gets the list of hypervisors that are supported by your system.
 
 ---
 ```scala
-def getGraphicalAccelerators(exec: String = "qemu-system-x86_64"): Vector[String]
+def getGraphicalAccelerators(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 Gets the list of graphical accelerators that are supported by your system.
 
@@ -85,27 +87,27 @@ Gets the list of machines QEMU can emulate given the guest architecture.
 
 ---
 ```scala
-def getAudioDrivers(exec: String = "qemu-system-x86_64"): Vector[String]
+def getAudioDrivers(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 ```scala
-def getAudioModels(exec: String = "qemu-system-x86_64"): Vector[String]
+def getAudioModels(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 Gets the list of audio drivers and models you can use to configure audio.
 
 ---
 ```scala
-def getNetInfo(exec: String = "qemu-system-x86_64"): String
+def getNetInfo(exec: String = "qemu-system-x86_64", machine: String = ""): String
 ```
 Gets network information info you can use to configure network.
 
 ---
 ```scala
-def getDevices(exec: String = "qemu-system-x86_64"): String
+def getDevices(exec: String = "qemu-system-x86_64", machine: String = ""): String
 ```
 Gets a list of all devices you can use.
 
 ---
 ```scala
-def getDisplayDevices(exec: String = "qemu-system-x86_64"): Vector[String]
+def getDisplayDevices(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
 ```
 Gets a list of all display/graphical devices you can use. It's parsed and ready to use
