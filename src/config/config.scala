@@ -24,7 +24,7 @@ def getConfParams_VM(): Vector[String] = //add name and description
   "hd=", "fd=", "cdrom=",
   "drive=", "boot=",
   "vga=",
-  "audio=", "net="
+  "audio=", "net=", "device="
   )
 
 def getConfParams_base(): Vector[String] = Vector("vmpath=", "arch=", "bios=")
@@ -85,7 +85,7 @@ private def parseFirstValue(cfg: Seq[String], setting: String, i: Int = 0): Vect
 //   else
 //     parseCommand(cmd, arg + cmd(i), cmdl, i+1)
 
-def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, first: Boolean = true): Vector[String] =
+private def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, first: Boolean = true): Vector[String] =
   if i >= entry.length then
     Vector(e1, e2)
   else if entry(i) == ':' && first then

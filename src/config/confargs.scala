@@ -2,6 +2,7 @@ package virtpebble.config
 
 import qemulib.*
 import bananatui.pressToContinue
+import qemulib.misc.mkarg
 
 private def getVal_string(opt: String): String =
   if opt != "none" then opt else ""
@@ -77,6 +78,14 @@ def getVGA(cfg: Seq[String]): String = getFirstValue(cfg, "vga=")
 def getAudio(cfg: Seq[String]): Vector[String] = fill_string(parseFirstValue(cfg, "audio="), 2)
 def getNet(cfg: Seq[String]): Vector[String] = fill_string(parseFirstValue(cfg, "net="), 2)
 
+def getvmDevices(cfg: Seq[String]): Vector[String] = //change to use setdevice later
+  def mkarg(devs: Vector[String], arg: Vector[String] = Vector(), i: Int = 0): Vector[String] =
+    if i >= devs.length then arg
+    else mkarg(devs, arg ++ Vector("-device", devs(i)), i+1)
+
+  val devices = getValues(cfg, "device=")
+  mkarg(devices)
+
 def setQEMUArgs(cfile: String): Vector[String] =
   val diskdir = s"${getVMpath()}/disks"
   def getDrivesArgs(d: Vector[Vector[String]], args: Vector[String] = Vector(), i: Int = 0): Vector[String] =
@@ -113,5 +122,6 @@ def setQEMUArgs(cfile: String): Vector[String] =
   val arg_vga = setGraphicsMode(vga)
   val arg_audio = setAudio(audio(0), audio(1))
   val arg_net = setNetwork(net(0), net(1))
+  val arg_devices = getvmDevices(conf) //change later
 
-  arg_accel ++ arg_machine ++ arg_cpu ++ arg_ram ++ arg_hd ++ arg_fd ++ arg_cdrom ++ arg_drives ++ arg_boot ++ arg_vga ++ arg_audio ++ arg_net
+  arg_accel ++ arg_machine ++ arg_cpu ++ arg_ram ++ arg_hd ++ arg_fd ++ arg_cdrom ++ arg_drives ++ arg_boot ++ arg_vga ++ arg_audio ++ arg_net ++ arg_devices

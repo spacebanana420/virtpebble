@@ -97,3 +97,15 @@ Gets the list of audio drivers and models you can use to configure audio.
 def getNetInfo(exec: String = "qemu-system-x86_64"): String
 ```
 Gets network information info you can use to configure network.
+
+---
+```scala
+def getDevices(exec: String = "qemu-system-x86_64"): String
+```
+Gets a list of all devices you can use.
+
+---
+```scala
+def getDisplayDevices(exec: String = "qemu-system-x86_64"): Vector[String]
+```
+Gets a list of all display/graphical devices you can use. It's parsed and ready to use

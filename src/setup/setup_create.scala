@@ -1,6 +1,6 @@
 package virtpebble.setup
 
-import virtpebble.config.{writeConfig, getVMpath}
+import virtpebble.config.{writeConfig, getVMpath, getDefaultArch}
 import qemulib.{getGraphicalAccelerators, getNetInfo, getAudioDrivers, getAudioModels}
 import bananatui.*
 import java.io.File
@@ -8,6 +8,7 @@ import virtpebble.config.getDiskList
 import virtpebble.createImage
 import qemulib.getAccelerators
 import qemulib.supportedHostArchitectures
+import qemulib.getDisplayDevices
 
 
 // def create_config() =
@@ -17,18 +18,22 @@ private def generateName(path: String, name: String = "virtpebble", i: Int = 0):
     generateName(path, name, i+1)
   else "${name}-${i}"
 
-def setupVM() =
+def setupVM() = //add a way to cancel through recursion, use accel and machine as function args
+  val host_arch =  getDefaultArch()
+
   val vms_path = getVMpath()
   val n = readUserInput("Type the name for your virtual machine")
   val name = if n != "" then n else generateName(vms_path)
-  val arch = setupArch()
-  val accel = setupAccel()
-  val machine = setupMachine()
+  val a = setupArch(); val arch = s"arch=$a" //exceptional
+  val accel = setupAccel(a)
+  val m =
+    if a == host_arch then "" else setupMachine() //implement arch too
+  val machine = s"machine=$m"
   val cpu = setupCPU()
   val ram = setupRAM()
   val drives = setupDrives()
-  val vga = setupVGA(arch)
-  val audio = setupAudio(arch)
+  val vga = setupVGA(a, m)
+  val audio = setupAudio(a, m)
   val net = setupNet()
   val opts = drives ++ Vector(arch, accel, machine, cpu, ram, vga, audio, net)
 
@@ -37,17 +42,17 @@ def setupVM() =
 def setupArch(): String =
   val opts = supportedHostArchitectures() //add more arches later
   val arch = chooseOption_string(opts, "Choose the virtual machine's architecture", "Default (x86_64)")
-  if arch == "" then "arch=x86_64" else s"arch=$arch"
+  if arch == "" then "x86_64" else arch
 
-def setupAccel(): String =
-  val accels = getAccelerators()
+def setupAccel(arch: String = "x86_64"): String =
+  val accels = getAccelerators(s"qemu-system-$arch")
   val accel = chooseOption_string(accels, "Choose a hypervisor/accelerator", "Default (tcg)")
   if accel == "" then "accel=tcg" else s"accel=$accel"
 
 def setupMachine(): String =
-  val machines = Vector("virt", "none") //add more in the future
-  val m = chooseOption_string(machines, "Choose a machine\nIf the guest's architecture is the same as the host's, choose \"none\"", "Default (none)")
-  if m == "" then "machine=none" else s"machine=$m"
+  val machines = Vector("virt") //add more in the future
+  val m = chooseOption_string(machines, "Choose a machine for QEMU to emulate\nThis is needed for cross-architecture emulation\nIf available, \"virt\" is recommended", s"Default (${machines(0)})")
+  if m == "" then "none" else m
 
 def setupCPU(cores: Int = 1, threads: Int = 0, sockets: Int = 0): String =
   val answer = chooseOption(Vector("Set virtual cores", "Set virtual threads", "Set virtual sockets"), "Configure the virtual CPU", "Done")
@@ -94,16 +99,21 @@ def configureBoot(): String =
     s"boot=$order:$menu:$splash"
   else s"boot=$order:$menu"
 
-def setupVGA(arch: String = "x86_64"): String = //non x86_64 qemus have different accel support, specify the qemu to run later
-  //make variant that uses -device too
-  val supported = getGraphicalAccelerators(s"qemu-system-$arch")
-  val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
-  if ans != "" then s"vga=$ans"
-  else s"vga=std"
+def setupVGA(arch: String = "x86_64", machine: String): String =
+  if arch != "x86_64" then
+    val supported = getDisplayDevices(s"qemu-system-$arch", machine)
+    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", s"Default (${supported(0)})")
+    if ans != "" then s"device=$ans" //replace with device!!!!!!!!
+    else s"device=${supported(0)}"
+  else
+    val supported = getGraphicalAccelerators(s"qemu-system-$arch", machine)
+    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
+    if ans != "" then s"vga=$ans"
+    else s"vga=std"
 
-def setupAudio(arch: String = "x86_64"): String =
-  val supported_d = getAudioDrivers(s"qemu-system-$arch")
-  val supported_m = getAudioModels(s"qemu-system-$arch")
+def setupAudio(arch: String = "x86_64", machine: String): String =
+  val supported_d = getAudioDrivers(s"qemu-system-$arch", machine)
+  val supported_m = getAudioModels(s"qemu-system-$arch", machine)
   val d = chooseOption_string(supported_d, "Choose an audio backend", "Default (none)")
   val driver =
     if d == "" then "none"
