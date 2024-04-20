@@ -66,3 +66,12 @@ def qemuimage_info(path: String): String =
 
 def qemuimage_check(path: String): String =
   exec_s(Vector("qemu-img", "check", "-q", path))
+
+
+//format-specific stuff for qemu-image
+
+def qemuimage_create_qcow2(path: String, size: Int, preallocate: Boolean) =
+  val arg_size = s"${size}M"
+  val arg_preallocation = if preallocate then Vector("-o", "preallocation=full") else Vector()
+  val args = arg_preallocation ++ Vector("-q", path, arg_size)
+  exec(Vector("qemu-img", "create") ++ args)

@@ -5,6 +5,8 @@ Here are the functions related to running QEMU.
 For ```args```, you need to retrieve and concatenate the results of calling the functions as seen [here](args.md)
 
 ---
+
+# Base QEMU functions
 ```scala
 def check_qemu(path: String = "qemu-system-x86_64"): Boolean
 ```
@@ -25,6 +27,8 @@ Runs QEMU to launch a virtual machine. QEMU is launched in parallel, and so your
 if ```quiet``` is set to true, QEMU won't print anything in your terminal's output.
 
 ---
+
+# QEMU-IMG functions
 ```scala
 def qemuimage_create(path: String, size: Int, format: String = "")
 ```
@@ -64,3 +68,10 @@ qemuimage_resize() sets the total size instead.
 def qemuimage_info(path: String): String
 ```
 Gives you information about the disk image that is in ```path```.
+
+```scala
+def qemuimage_create_qcow2(path: String, size: Int, preallocate: Boolean)
+```
+Creates a qcow2 disk image in the path ```path```. The ```size``` is measured in megabytes.
+
+If ```preallocate``` is set to true, then the image will have the virtual full size preallocated, resulting in more disk operations performance but higher file sizes.

@@ -32,11 +32,3 @@ def isDebugEnabled(args: Vector[String], i: Int = 0): Boolean =
   else if args(i) == "--debug" then true
   else isDebugEnabled(args, i+1)
 
-//   writeConfig_string("testconfig.txt", defaultconf_linux(), false)
-//   test()
-
-
-// def test() =
-//   val args = setQEMUArgs("testconfig.txt")
-//   println("///printing args///\n\n")
-//   for a <- args do print(s"$a ")
