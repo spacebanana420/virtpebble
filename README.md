@@ -7,8 +7,6 @@ Due to the huge scale of QEMU, Virtpebble only supports a fraction of what you c
 
 Exceptionally, Bhyve support for FreeBSD as an alternative to QEMU is in my plans.
 
-**This project is still in early development.**
-
 # Requirements
 
 * Java 11 or Scala 3

@@ -107,14 +107,14 @@ def setupVGA(arch: String = "x86_64", machine: String): String =
     else s"device=${supported(0)}"
   else
     val supported = getGraphicalAccelerators(s"qemu-system-$arch", machine)
-    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use\n\nVirtio and QXL are usually ideal, otherwise you can choose STD", "Default (std)")
+    val ans = chooseOption_string(supported, "Choose what graphical acceleration to use\n\nVirtio and QXL, if available, are usually ideal, otherwise you can choose STD", "Default (std)")
     if ans != "" then s"vga=$ans"
     else s"vga=std"
 
 def setupAudio(arch: String = "x86_64", machine: String): String =
   val supported_d = getAudioDrivers(s"qemu-system-$arch", machine)
   val supported_m = getAudioModels(s"qemu-system-$arch", machine)
-  val d = chooseOption_string(supported_d, "Choose an audio backend", "Default (none)")
+  val d = chooseOption_string(supported_d, "Choose an audio backend\n\npa is recommended for Linux-based systems\noss is recommended for FreeBSD", "Default (none)")
   val driver =
     if d == "" then "none"
     else d

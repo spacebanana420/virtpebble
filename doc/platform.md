@@ -26,4 +26,4 @@ While you can run QEMU on an unsupported CPU architecture, this requires that QE
 * Java 11 or Scala
 * QEMU
 
-You need either Java 11 (or greater) or Scala (running a JVM >= 11) in your system. For most functionality you need QEMU of course, as it's what Virtpebble uses for running your virtual machines. Without QEMU, Virtpebble refuses to boot into the main menu as a security measure.
+You need either Java 11 (or greater) or Scala (running a JVM >= 11) in your system to run Virtpebble. For the core functionality you need QEMU of course, as it's what Virtpebble uses for running your virtual machines. Without QEMU, Virtpebble refuses to boot into the main menu as a security measure.

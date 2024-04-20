@@ -25,7 +25,7 @@ import qemulib.check_qemu
         case 5 => setupBaseConfig()
 
 def noQEMU() =
-  readUserInput("You do not have QEMU installed in your system!\nQEMU is required to run your virtual machines.\n\nhttps://qemu.org")
+  println(s"${foreground("yellow")}[Warning: missing QEMU]${foreground("default")}\n\nYou do not have QEMU installed in your system!\nQEMU is required to run your virtual machines.\n\nhttps://qemu.org")
 
 def isDebugEnabled(args: Vector[String], i: Int = 0): Boolean =
   if i >= args.length then false
