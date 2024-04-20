@@ -3,10 +3,6 @@ Virtpebble is a terminal-based virtual machine manager and runner. It uses [QEMU
 
 With Virtpebble, you can easily and conveniently create virtual machines and disk images, manage them and run them. All configurations are in plain text and easy to modify, as long as you know the correct values.
 
-Due to the huge scale of QEMU, Virtpebble only supports a fraction of what you can do with it. I slowly implement new features as I discover QEMU and feel more comfortable with it.
-
-Exceptionally, Bhyve support for FreeBSD as an alternative to QEMU is in my plans.
-
 # Requirements
 
 * Java 11 or Scala 3

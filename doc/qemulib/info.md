@@ -98,7 +98,13 @@ Gets the list of audio drivers and models you can use to configure audio.
 ```scala
 def getNetInfo(exec: String = "qemu-system-x86_64", machine: String = ""): String
 ```
-Gets network information info you can use to configure network.
+Gets network information info you can use to configure the VM's network.
+
+---
+```scala
+def getNetModels(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String]
+```
+Gets a list of what network models you can use to configure the VM's network.
 
 ---
 ```scala

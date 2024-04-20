@@ -1,7 +1,7 @@
 package virtpebble.setup
 
 import virtpebble.config.{writeConfig, getVMpath, getDefaultArch}
-import qemulib.{getGraphicalAccelerators, getNetInfo, getAudioDrivers, getAudioModels}
+import qemulib.{getGraphicalAccelerators, getNetInfo, getAudioDrivers, getAudioModels, getNetModels}
 import bananatui.*
 import java.io.File
 import virtpebble.config.getDiskList
@@ -34,7 +34,7 @@ def setupVM() = //add a way to cancel through recursion, use accel and machine a
   val drives = setupDrives()
   val vga = setupVGA(a, m)
   val audio = setupAudio(a, m)
-  val net = setupNet()
+  val net = setupNet(a, m)
   val opts = drives ++ Vector(arch, accel, machine, cpu, ram, vga, audio, net)
 
   writeConfig(s"$vms_path/${name}_vm.txt", opts, false)
@@ -124,12 +124,8 @@ def setupAudio(arch: String = "x86_64", machine: String): String =
     else m
   s"audio=$driver:$model"
 
+def setupNet(arch: String = "x86_64", machine: String): String =
+  val models = getNetModels(s"qemu-system-$arch", machine)
+  val model = chooseOption_string(models, "Choose a network model\n\n\"none\" disables network connections for the virtual machine\nIf available, \"virtio-net-pci\" is a good choice", "Default (none)")
+  if model == "" then "" else s"net=user:$model"
 
-// def setupNet(): String = //this needs to be finished
-//   val supported = getNetInfo()
-//   val ans = chooseOption_string(supported, "Choose what graphical acceleration to use", "Default (std)")
-//   if ans != "" then s"vga=$ans"
-//   else s"vga=std"
-
-//make a parser for available network models, then finish this function
-def setupNet(): String = s"net=user:virtio-net-pci"

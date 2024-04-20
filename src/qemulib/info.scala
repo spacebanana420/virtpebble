@@ -86,31 +86,12 @@ def getAudioModels(exec: String = "qemu-system-x86_64", machine: String = ""): V
 def getNetInfo(exec: String = "qemu-system-x86_64", machine: String = ""): String = //not parsing this at least for now
   runInfoCmd(Vector(exec, "-nic", "help"), machine)
 
+def getNetModels(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String] =
+  val stdout = stdout_to_vector(runInfoCmd(Vector(exec, "-nic", "help"), machine))
+  filter_stdout_seq(stdout, "Available NIC models:", false)
 def getDevices(exec: String = "qemu-system-x86_64", machine: String = ""): String =
   runInfoCmd(Vector(exec, "-device", "help"), machine)
 
-
 def getDisplayDevices(exec: String = "qemu-system-x86_64", machine: String = ""): Vector[String] = //seems to be working
-  def mkSeq(stdout: String, line: String = "", seq: Vector[String] = Vector(), i: Int = 0): Vector[String] = //only add starting from display devices, for optimization
-    if i >= stdout.length then
-      if line == "" then seq else seq :+ line
-    else if stdout(i) == '\n' then
-      mkSeq(stdout, "", seq :+ line, i+1)
-    else
-      mkSeq(stdout, line + stdout(i), seq, i+1)
-
-  def getDevice(line: String, dev: String = "", copy: Boolean = false, i: Int = 0): String =
-    if i >= line.length then dev
-    else if line(i) == '\"' then
-      if copy then dev else getDevice(line, dev, true, i+1)
-    else if copy then getDevice(line, dev + line(i), copy, i+1)
-    else getDevice(line, dev, copy, i+1)
-
-  def parse(stdout: Vector[String], devlist: Vector[String] = Vector(), copy: Boolean = false, i: Int = 0): Vector[String] =
-    if i >= stdout.length || (stdout(i) == "" && copy) then devlist
-    else if stdout(i) == "Display devices:" then parse(stdout, devlist, true, i+1)
-    else if copy then parse(stdout, devlist :+ getDevice(stdout(i)), copy, i+1)
-    else parse(stdout, devlist, copy, i+1)
-
-  val stdout = mkSeq(getDevices(exec, machine))
-  parse(stdout)
+  val stdout = stdout_to_vector(getDevices(exec, machine))
+  filter_stdout_seq(stdout, "Display devices:", true)

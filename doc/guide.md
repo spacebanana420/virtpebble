@@ -60,4 +60,8 @@ Audio backends vary between operating systems. To choose one, you must have some
 
 Audio drivers are emulated. Most options are fine, but hda is more popular.
 
+## Configuring network
+
+Virtpebble asks you to choose a network model for emulation/virtualization. The virtio models are usually recommended, otherwise you can disable network access by choosing the default option
+
 **this documentation is not finished yet**

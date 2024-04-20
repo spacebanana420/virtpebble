@@ -15,11 +15,11 @@ import qemulib.*
 
 # Documentation
 
-#### [Runner](qemulib/runner.md)
+#### [Runner](runner.md)
 * Base functions for running QEMU
-#### [Args](qemulib/args.md)
+#### [Args](args.md)
 * Functions that parse and provide you CLI arguments to use on QEMU
-#### [Info](qemulib/info.md)
+#### [Info](info.md)
 * Functions that run QEMU to retrieve information about supported drivers, backends, models, etc
 
 # Getting started
